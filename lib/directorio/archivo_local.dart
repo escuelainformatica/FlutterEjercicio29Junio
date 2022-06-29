@@ -10,22 +10,22 @@ class ArchivoLocal {
   }
 
   /// obtener el archivo
-  static Future<File> get _localFile async {
+  static Future<File> _localFile(String archivo) async {
     final path = await _localPath;
     // c:/temp/counter.txt
-    return File('$path/counter.txt');
+    return File('$path/$archivo.txt');
   }
 
-  static Future<File> writer(String contenido) async {
-    final file = await _localFile;
+  static Future<File> writer(String contenido,String archivo) async {
+    final file = await _localFile(archivo);
 
     // Write the file
     return file.writeAsString(contenido);
   }
 
-  static Future<String> read() async {
+  static Future<String> read(String archivo) async {
     try {
-      final file = await _localFile;
+      final file = await _localFile(archivo);
 
       // Read the file
       final contents = await file.readAsString();

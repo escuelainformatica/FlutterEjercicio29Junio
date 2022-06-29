@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled10/directorio/leer_webservice.dart';
+import 'package:untitled10/paginas/menu_drawer.dart';
 
 import '../modelo/ciudad.dart';
 
@@ -32,6 +33,7 @@ class _PaginaInicialState extends State<PaginaInicial> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("conexion al web service")),
+      drawer: MenuDrawer(),
       body: ListView.builder(
         itemCount: ciudades.length,
         itemBuilder: (BuildContext, fila) {

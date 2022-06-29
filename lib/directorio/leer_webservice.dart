@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 
 import 'package:http/http.dart' as http;
 import 'package:untitled10/directorio/archivo_local.dart';
+import 'package:untitled10/modelo/product_category.dart';
 
 import '../modelo/ciudad.dart';
 
@@ -23,19 +24,45 @@ class LeerWebService {
 
       var response = await http.get(url);
       if (response.statusCode == 200) {
-        ArchivoLocal.writer(response.body);
+        ArchivoLocal.writer(response.body,"listaciudad");
         var jsonResponse = convert.jsonDecode(response.body) as List<dynamic>;
         resultado = jsonResponse.map((e) => Ciudad.fromJson(e)).toList();
       } else {
-        String contenido = await ArchivoLocal.read();
+        String contenido = await ArchivoLocal.read("listaciudad");
         var jsonResponse = convert.jsonDecode(contenido) as List<dynamic>;
         resultado = jsonResponse.map((e) => Ciudad.fromJson(e)).toList();
       }
     } on Exception catch (_) {
-      String contenido = await ArchivoLocal.read();
+      String contenido = await ArchivoLocal.read("listaciudad");
       var jsonResponse = convert.jsonDecode(contenido) as List<dynamic>;
       resultado = jsonResponse.map((e) => Ciudad.fromJson(e)).toList();
     }
     return resultado;
   }
+
+  static Future<List<ProductCategory>> listarProdCat() async {
+    List<ProductCategory> resultado=[];
+    try {
+      var url =
+      Uri.http('158.101.30.194', '/testcli/examples/oraclevm2/Productcategory/listall', {});
+
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        ArchivoLocal.writer(response.body,"prodcat");
+        var jsonResponse = convert.jsonDecode(response.body) as List<dynamic>;
+        resultado = jsonResponse.map((e) => ProductCategory.fromJson(e)).toList();
+      } else {
+        String contenido = await ArchivoLocal.read("prodcat");
+        var jsonResponse = convert.jsonDecode(contenido) as List<dynamic>;
+        resultado = jsonResponse.map((e) => ProductCategory.fromJson(e)).toList();
+      }
+    } on Exception catch (_) {
+      String contenido = await ArchivoLocal.read("prodcat");
+      var jsonResponse = convert.jsonDecode(contenido) as List<dynamic>;
+      resultado = jsonResponse.map((e) => ProductCategory.fromJson(e)).toList();
+    }
+    return resultado;
+  }
+
+  //http://158.101.30.194/testcli/examples/oraclevm2/Productcategory/listall
 }
